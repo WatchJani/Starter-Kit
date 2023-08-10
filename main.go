@@ -36,29 +36,31 @@ func main() {
 	var err error
 
 	currentDir, err := os.Getwd()
-	ErrorHandler(err, "Greška prilikom dobijanja radnog direktorijuma:")
+	ErrorHandler(err, "Error while getting the working directory:")
 
 	dirName := ArgParser()
 
 	err = os.Mkdir(dirName, 0777)
-	ErrorHandler(err, "Problem pri stvaranju novog foldera:")
-	fmt.Printf("Stvoren novi projekat (%s) na mjestu %s\n", dirName, currentDir)
+	ErrorHandler(err, "Issue when creating a new folder:")
 
 	newDir := filepath.Join(currentDir, dirName)
 
 	err = os.Chdir(newDir)
-	ErrorHandler(err, "Greška prilikom promene radnog direktorijuma:")
+	ErrorHandler(err, "Error while changing the working directory:")
 
 	err = CreateGoMod()
-	ErrorHandler(err, "Greška prilikom izvršavanja komande:")
+	ErrorHandler(err, "Error while executing the command:")
 
 	file, err := CreateMain()
-	ErrorHandler(err, "Greška pri kreiranju main.go fajla")
+	ErrorHandler(err, "Error while creating the main.go file:")
 
 	defer file.Close()
 
 	_, err = file.WriteString(CONTENT_MAIN_FILE)
-	ErrorHandler(err, "Greška prilikom pisanja u fajl:")
+	ErrorHandler(err, "Error while writing to the file:")
+
+	fmt.Printf("Created a new project (%s) at location %s\n", dirName, currentDir)
+
 }
 
 func CreateMain() (*os.File, error) {
