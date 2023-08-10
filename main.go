@@ -12,7 +12,7 @@ const (
 	DEFAULT_DIR_NAME  string = "new_project"
 	GO_MOD_INIT       string = "root"
 	DEFAULT_GO_MAIN   string = "main.go"
-	CONTENT_MAIN_FILE string = "package main \n\nfunc main(\n\n)"
+	CONTENT_MAIN_FILE string = "package main \n\nimport \"fmt\"\n\nfunc main(){\n    fmt.Println(\"Hallo World\")\n}\n"
 )
 
 func ErrorMsgParser(msg []string) string {
@@ -60,7 +60,6 @@ func main() {
 	ErrorHandler(err, "Error while writing to the file:")
 
 	fmt.Printf("Created a new project (%s) at location %s\n", dirName, currentDir)
-
 }
 
 func CreateMain() (*os.File, error) {
@@ -69,7 +68,6 @@ func CreateMain() (*os.File, error) {
 
 func CreateGoMod() error {
 	cmd := exec.Command("go", "mod", "init", GO_MOD_INIT)
-
 	return cmd.Run()
 }
 
